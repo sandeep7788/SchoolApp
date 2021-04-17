@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "848143780705",
+    "project_id": "vidhyalaya-parent-app",
+    "storage_bucket": "vidhyalaya-parent-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848143780705:android:52795cb6f8fd1dd641d320",
+        "android_client_info": {
+          "package_name": "com.education.vidhyalaya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848143780705-am38p9c94klpjq4484d6s8u0g13b2v3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.education.vidhyalaya",
+            "certificate_hash": "fb3c5745dbb394d6e87fc61fc65b4384ec8a5a5a"
+          }
+        },
+        {
+          "client_id": "848143780705-st3rfau6qubfovgkuvlhrrur8fbhrpgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7q9KCnynRbI_df-xxfHeYhl1WZu-VypE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848143780705-st3rfau6qubfovgkuvlhrrur8fbhrpgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
