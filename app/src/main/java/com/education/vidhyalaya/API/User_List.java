@@ -44,6 +44,27 @@ public class User_List {
     @SerializedName("FacultyPhone")
     @Expose
     private String facultyPhone;
+    @SerializedName("sectionname")
+    @Expose
+    private String sectionname;
+
+    public String get_class() {
+        return _class;
+    }
+
+    public void set_class(String _class) {
+        this._class = _class;
+    }
+
+    public String getSectionname() {
+        return sectionname;
+    }
+
+    public void setSectionname(String sectionname) {
+        this.sectionname = sectionname;
+    }
+
+
 
     public String getId() {
         return id;

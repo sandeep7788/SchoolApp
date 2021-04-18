@@ -83,10 +83,10 @@ class HomeFragment : Fragment(), Animation.AnimationListener {
             .into(circleImageView)
         name.setText(getdata(Data.Student))
 
-        if (getdata(Data.section).toString().trim().equals("0")) {
+        if (getdata(Data.sectionname).toString().trim().equals("0")||getdata(Data.sectionname).toString().trim().equals("")) {
             info.setText("Class :-  "+getdata(Data.classe)+" | Section :- ")
         } else {
-            info.setText("Class :-  "+getdata(Data.classe)+" | Section :- "+getdata(Data.section).toString().trim())
+            info.setText("Class :-  "+getdata(Data.classe)+" | Section :- "+getdata(Data.sectionname).toString().trim())
         }
 
         val firstFragment = NotifactionFragment()
@@ -241,7 +241,6 @@ class HomeFragment : Fragment(), Animation.AnimationListener {
         loginResponseCall.enqueue(object : Callback<List<Notifactionpojo>>
         {
             override fun onFailure(call: Call<List<Notifactionpojo>>, t: Throwable) {
-                Log.e("@@homework",t.message)
                     if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss()
                 }

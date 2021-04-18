@@ -48,7 +48,7 @@ class LoadMenu : AppCompatActivity() {
     var data = "0"
     lateinit var imageView8: ImageView
     var TAG=">>LoadMenu"
-    var errorMsg="something went wrong please try again.";
+    var errorMsg="something went wrong please try again."
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +70,7 @@ class LoadMenu : AppCompatActivity() {
 
         progressDialog.show()
         var intent = intent
-        data = intent.getStringExtra("name")
+        data = intent.getStringExtra("name").toString()
         when (data) {
             "moment" -> moment()
             "homework" -> homework()

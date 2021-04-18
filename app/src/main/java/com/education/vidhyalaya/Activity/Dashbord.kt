@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -17,9 +18,15 @@ import androidx.viewpager.widget.ViewPager
 import com.education.vidhyalaya.API.Data
 import com.education.vidhyalaya.Adapter.MyAdapter
 import com.education.vidhyalaya.R
+import com.github.javiersantos.appupdater.AppUpdater
+import com.github.javiersantos.appupdater.AppUpdaterUtils
+import com.github.javiersantos.appupdater.AppUpdaterUtils.UpdateListener
+import com.github.javiersantos.appupdater.enums.AppUpdaterError
+import com.github.javiersantos.appupdater.objects.Update
 import com.google.android.material.tabs.TabLayout
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+
 
 class Dashbord : AppCompatActivity()
 {
@@ -152,6 +159,23 @@ class Dashbord : AppCompatActivity()
 
             }
         })
+
+        try {
+            val appUpdater = AppUpdater(this)
+            appUpdater.start()
+            AppUpdater(this)
+                .setTitleOnUpdateAvailable("Update available")
+                .setContentOnUpdateAvailable("Check out the latest version available of my app!")
+                .setTitleOnUpdateNotAvailable("Update not available")
+                .setContentOnUpdateNotAvailable("No update available. Check for updates again later!")
+                .setButtonUpdate("Update now?")
+                .setCancelable(false)
+
+
+        } catch (e:Exception) {
+
+        }
+
     }
     fun open_navigation_drawable()
     {

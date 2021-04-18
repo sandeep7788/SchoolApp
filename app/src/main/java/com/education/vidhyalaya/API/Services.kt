@@ -13,13 +13,12 @@ import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
 
-class Services
-{
-//    vidhyalaya.co.in
+class Services {
+    //    vidhyalaya.co.in
 //    http://vidhyalaya.co.in/sspanel/API/holiday/parentlogin?mobno=9636045430&password=1234&remember_token=test123
 //    val baseurl="http://vidhyalaya.co.in/sspanel/API/holiday/"
-    val baseurl="http://vidhyalaya.co.in/sspanel/API/holiday/"
-    public final val loginurl="parentlogin"
+    val baseurl = "http://vidhyalaya.co.in/sspanel/API/holiday/"
+    val loginurl = "parentlogin"
 
     var okHttpClient = OkHttpClient().newBuilder()
         .connectTimeout(40, TimeUnit.SECONDS)
@@ -144,6 +143,7 @@ class Services
         }
         return answersheet
     }
+
     var attendanceList: Atendence? = null
     fun getAttendenceList(): Atendence? {
         if (attendanceList == null) {
@@ -234,11 +234,14 @@ class Services
         @Multipart
         @POST("profileupdate?")
         fun account(
-            @Part("school_id") school_id: RequestBody?,@Part("userid") userid: RequestBody?,@Part("address") address: RequestBody?, @Part pro_image: MultipartBody.Part?
+            @Part("school_id") school_id: RequestBody?,
+            @Part("userid") userid: RequestBody?,
+            @Part("address") address: RequestBody?,
+            @Part pro_image: MultipartBody.Part?
         ): Call<Profileupdateapi>
     }
 
-//school_id=28&stdid=43344&classid=720&section=0
+    //school_id=28&stdid=43344&classid=720&section=0
     interface Notifaction {
         @GET("readmsg?")
         fun getNotifaction(
@@ -256,17 +259,19 @@ class Services
             @Query("school_id") school_id: Int?,
             @Query("stdid") stdid: Int?,
             @Query("classid") classid: Int?,
-        @Query("section") section: Int?
+            @Query("section") section: Int?
         ): Call<List<HomeWorkModel>>//Call<UserLogin?>?
     }
-//    http://www.skoolstarr.com/sspanel/API/holiday?school_id=28
+
+    //    http://www.skoolstarr.com/sspanel/API/holiday?school_id=28
     interface Holiday {
         @GET("holiday?")
         fun getholiday(
             @Query("school_id") school_id: String?
         ): Call<List<Holadaypojo>>//Call<UserLogin?>?
     }
-//http://vidhyalaya.co.in/sspanel/API/holiday/answersheet?school_id=32&studentid=43344
+
+    //http://vidhyalaya.co.in/sspanel/API/holiday/answersheet?school_id=32&studentid=43344
     interface Answersheet {
         @GET("answersheet?")
         fun getanswersheet(
@@ -274,11 +279,13 @@ class Services
             @Query("studentid") studentid: String?
         ): Call<List<AnswerSheetModel>>//Call<UserLogin?>?
     }
+
     interface Services {
         @GET("files/Node-Android-Chat.zip")
         @Streaming
         fun downloadFile(): Call<ResponseBody?>?
     }
+
     interface Leave {
         @FormUrlEncoded
         @POST("insertleaverequest")
@@ -288,29 +295,35 @@ class Services
             @Field("reason") reason: String?,
             @Field("description") description: String?,
             @Field("start_date") start_date: String?,
-            @Field("end_date") end_date: String?)
+            @Field("end_date") end_date: String?
+        )
                 : Call<Profileapi>?
     }
-interface Atendence {
-    @GET("studentattendance?")
-    fun get_atendenceList(
-        @Query("school_id") school_id: Int?,
-        @Query("stdid") stdid: Int?,
-        @Query("month") month: String,
-        @Query("year") year: String
-    ): Call<Attendentapi>
-}
+
+    interface Atendence {
+        @GET("studentattendance?")
+        fun get_atendenceList(
+            @Query("school_id") school_id: Int?,
+            @Query("stdid") stdid: Int?,
+            @Query("month") month: String,
+            @Query("year") year: String
+        ): Call<Attendentapi>
+    }
+
     interface ChangePassword {
         @GET("passwordchange?")
         fun getchancepasswordservices(
             @Query("userid") userid: String?,
             @Query("old_password") old_password: String?,
-            @Query("new_password") new_password: String?): Call<Changepasswordapi>
+            @Query("new_password") new_password: String?
+        ): Call<Changepasswordapi>
     }
+
     interface Feedet {
         @GET("feedet?")
         fun getfeedetails(
             @Query("school_id") school_id: String?,
-            @Query("stdid") stdid: String?): Call<List<Feesdet>>
+            @Query("stdid") stdid: String?
+        ): Call<List<Feesdet>>
     }
 }

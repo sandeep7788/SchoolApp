@@ -34,10 +34,23 @@ class UserAdapter(var context: Context, val userList: ArrayList<User_List>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
-        Log.e("@@adapter", userList.get(position).id)
         holder.name.text = userList.get(position).student
-        holder.classe.text = "class:- " + userList.get(position).class_
+        holder.classe.text = "class: " + userList.get(position).class_
         holder.school.text = userList.get(position).schoolName
+
+
+        try {
+            if (userList.get(position).sectionname.toString().equals("null") || userList.get(
+                    position
+                ).sectionname == null
+            ) {
+                holder.txt_section_name.visibility = View.GONE
+            } else {
+                holder.txt_section_name.text = "section: " + userList.get(position).sectionname
+            }
+        } catch (e: Exception) {
+            holder.txt_section_name.visibility = View.GONE
+        }
 
 
 
@@ -62,6 +75,7 @@ class UserAdapter(var context: Context, val userList: ArrayList<User_List>) :
             setdata(Data.staffuserid, userList.get(position).staffuserid + " ")
             setdata(Data.Classteacher, userList.get(position).classteacher + " ")
             setdata(Data.FacultyPhone, userList.get(position).facultyPhone + " ")
+            setdata(Data.sectionname, userList.get(position).sectionname + " ")
 
             context.startActivity(
                 Intent(
@@ -83,6 +97,7 @@ class UserAdapter(var context: Context, val userList: ArrayList<User_List>) :
         var img = itemView.findViewById<CircleImageView>(R.id.image)
         var classe = itemView.findViewById<TextView>(R.id.t_class)
         var school = itemView.findViewById<TextView>(R.id.t_school)
+        var txt_section_name = itemView.findViewById<TextView>(R.id.txt_section_name)
         var cv = itemView.findViewById<CardView>(R.id.cv)
     }
 

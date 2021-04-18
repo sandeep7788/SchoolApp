@@ -205,7 +205,6 @@ class Leave : AppCompatActivity() {
 
         loginResponseCall.enqueue(object : Callback<Profileapi> {
             override fun onFailure(call: Call<Profileapi>, t: Throwable) {
-                Log.e("@@",t.message)
                 progress!!.dismiss()
                 Toast.makeText(this@Leave,"Try Later or Error genrate",Toast.LENGTH_LONG).show()
                 showDialog("Your request not submitted",SweetAlertDialog.WARNING_TYPE)

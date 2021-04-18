@@ -2,7 +2,10 @@ package com.education.vidhyalaya.Activity
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
@@ -28,34 +31,34 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MainActivity : AppCompatActivity()
-{
-    lateinit var e1:EditText
-    lateinit var e2:EditText
+class MainActivity : AppCompatActivity() {
+    lateinit var e1: EditText
+    lateinit var e2: EditText
     lateinit var pb: android.app.AlertDialog
-    lateinit var sv:ScrollView
-    lateinit var rv:RecyclerView
-    var userdata=ArrayList<User_List>()
+    lateinit var sv: ScrollView
+    lateinit var rv: RecyclerView
+    var userdata = ArrayList<User_List>()
+    var errorMsg = "something went wrong please try again."
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        e1=findViewById(R.id.e1)
-        e2=findViewById(R.id.e2)
-        sv=findViewById(R.id.sv)
-        rv=findViewById(R.id.rv)
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        pb=SpotsDialog.Builder().setContext(this@MainActivity).build()
+        e1 = findViewById(R.id.e1)
+        e2 = findViewById(R.id.e2)
+        sv = findViewById(R.id.sv)
+        rv = findViewById(R.id.rv)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        pb = SpotsDialog.Builder().setContext(this@MainActivity).build()
         pb.setTitle("Connecting to Server")
         pb.setMessage("Please Wait")
-        userdata= ArrayList()
+        userdata = ArrayList()
 
-        var MyReceiver: BroadcastReceiver?= null;
+        var MyReceiver: BroadcastReceiver? = null
         MyReceiver = com.education.vidhyalaya.helper.MyReceiver()
         registerReceiver(MyReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
-        var b_login=findViewById<Button>(R.id.b_login)
+        var b_login = findViewById<Button>(R.id.b_login)
         b_login.setOnClickListener {
             sv.visibility = View.VISIBLE
             var cl = findViewById<ConstraintLayout>(R.id.cl)
@@ -64,39 +67,40 @@ class MainActivity : AppCompatActivity()
             l1.visibility = View.INVISIBLE
         }
 
-        if(getdata(Data.login).equals("1"))
-        {
-            Log.e("@@","number "+getdata(Data.number)+"section "+getdata(Data.schoolSession))
-            load_user(getdata(Data.number),getdata(Data.schoolSession))
+        if (getdata(Data.login).equals("1")) {
+            Log.e("@@", "number " + getdata(Data.number) + "section " + getdata(Data.schoolSession))
+            load_user(getdata(Data.number), getdata(Data.schoolSession))
         }
 
 
+        var b1 = findViewById<Button>(R.id.button)
+            .setOnClickListener {
 
-
-            var b1 = findViewById<Button>(R.id.button)
-                .setOnClickListener {
-
-                    if (e1.text.isEmpty()) {
-                        e1.setError("Invalid")
-                    } else if (e2.text.isEmpty()) {
-                        e2.setError("Invalid Password")
-                    } else if (!e1.text.isEmpty() && !e2.text.isEmpty()) {
-                        pb!!.show()
+                if (e1.text.isEmpty()) {
+                    e1.error = "Invalid"
+                } else if (e2.text.isEmpty()) {
+                    e2.error = "Invalid Password"
+                } else if (!e1.text.isEmpty() && !e2.text.isEmpty()) {
+                    pb.show()
 //                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-                        hideTheKeyboard(this@MainActivity,e2)
+                    hideTheKeyboard(this@MainActivity, e2)
 
-                        FirebaseMessaging.getInstance().token.addOnCompleteListener(
-                            OnCompleteListener { task ->
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                        OnCompleteListener { task ->
                             if (!task.isSuccessful) {
-                                Log.w("@@", "Fetching FCM registration token failed", task.exception)
+                                Log.w(
+                                    "@@",
+                                    "Fetching FCM registration token failed",
+                                    task.exception
+                                )
                                 login1(" ")
                                 return@OnCompleteListener
                             } else {
                                 login1(task.result.toString())
                             }
                         })
-                    }
                 }
+            }
     }
 
     fun hideTheKeyboard(context: Context, editText: EditText) {
@@ -108,16 +112,19 @@ class MainActivity : AppCompatActivity()
         )
     }
 
-    fun login1(token:String)
-    {
-        var preferences= Services()
-        val loginResponseCall: Call<List<UserLogin>> = preferences.getServices()!!.getProducts(e1.text.toString(),e2.text.toString(),token)
+    fun login1(token: String) {
+        var preferences = Services()
+        val loginResponseCall: Call<List<UserLogin>> =
+            preferences.getServices()!!.getProducts(e1.text.toString(), e2.text.toString(), token)
 
-        loginResponseCall.enqueue(object : Callback<List<UserLogin>>
-        {
+        loginResponseCall.enqueue(object : Callback<List<UserLogin>> {
             override fun onFailure(call: Call<List<UserLogin>>, t: Throwable) {
-                pb!!.dismiss()
-                Toast.makeText(this@MainActivity,"Username or Password incorrect",Toast.LENGTH_LONG).show()
+                pb.dismiss()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Username or Password incorrect",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
             @SuppressLint("ResourceAsColor")
@@ -129,20 +136,23 @@ class MainActivity : AppCompatActivity()
 
                     pb.dismiss()
                     setdata()
-                    setdata(Data.number,e1.text.toString())
-                    setdata(Data.password,e2.text.toString())
-                    Toast.makeText(this@MainActivity, "Login Successfully", Toast.LENGTH_LONG).show()
+                    setdata(Data.number, e1.text.toString())
+                    setdata(Data.password, e2.text.toString())
+                    Toast.makeText(this@MainActivity, "Login Successfully", Toast.LENGTH_LONG)
+                        .show()
 
-                    if(response.body()?.size!!.toInt() > 0) {
+                    if (response.body()?.size!!.toInt() > 0) {
 
-                        Log.e("@@>>", "onResponse: "+e1.text.toString()+" _ "+ response.body()!!.size)
-                        Log.e("@@>>", "onResponse: "+e1.text.toString()+" _ "+ response.body()!!.get(0).id)
-                        setdata(Data.schoolSession,(response.body()!!.get(0).schoolSession+" ").trim())
-                        Log.e("@@section",response.body()!!.get(0).schoolSession)
+                        setdata(
+                            Data.schoolSession,
+                            (response.body()!!.get(0).schoolSession + " ").trim()
+                        )
+                        Log.e("@@section", response.body()!!.get(0).schoolSession)
 
-                        load_user((response.body()!!.get(0).schoolSession+" ").trim())
+                        load_user((response.body()!!.get(0).schoolSession + " ").trim())
                     } else {
-                        Toast.makeText(this@MainActivity, "No data found!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, "No data found!", Toast.LENGTH_LONG)
+                            .show()
 
                     }
                 }
@@ -150,20 +160,17 @@ class MainActivity : AppCompatActivity()
         })
     }
 
-    fun load_user(schoolSession:String)
-    {
+    fun load_user(schoolSession: String) {
 
-        userdata .clear()
-        var preferences= Services()
+        userdata.clear()
+        var preferences = Services()
         val loginResponseCall: Call<List<User_List>> =
-            preferences.getUserliost()!!.getUserlist(e1.text.toString(),schoolSession)
-        loginResponseCall.enqueue(object : Callback<List<User_List>>
-        {
+            preferences.getUserliost()!!.getUserlist(e1.text.toString(), schoolSession)
+        loginResponseCall.enqueue(object : Callback<List<User_List>> {
 
             override fun onFailure(call: Call<List<User_List>>, t: Throwable) {
-                Log.e("@@userlist",t.message)
-                pb!!.dismiss()
-                Toast.makeText(this@MainActivity,"Try Again or Check Internet Connection",Toast.LENGTH_SHORT).show()
+                pb.dismiss()
+                Toast.makeText(this@MainActivity, errorMsg, Toast.LENGTH_SHORT).show()
                 sv.visibility = View.VISIBLE
                 var cl = findViewById<ConstraintLayout>(R.id.cl)
                 var l1 = findViewById<LinearLayout>(R.id.l1)
@@ -175,67 +182,67 @@ class MainActivity : AppCompatActivity()
                 call: Call<List<User_List>>,
                 response: Response<List<User_List>>
             ) {
-                pb!!.dismiss()
-                if(response.isSuccessful)
-                {
-                    sv.visibility = View.INVISIBLE
-                    var cl = findViewById<ConstraintLayout>(R.id.cl)
-                    var l1 = findViewById<LinearLayout>(R.id.l1)
-                    cl.setBackgroundColor(R.color.tb)
-                    l1.visibility = View.VISIBLE
+                pb.dismiss()
+                try {
 
-                    Log.e("@@userlist", response.body().toString())
-                    for (i in 0 until response.body()!!.size) {
 
-                        setdata("id",response.body()!!.get(i).id)
-                        setdata("studentImage",response.body()!!.get(i).studentImage)
-                        setdata("student",response.body()!!.get(i).student)
+                    if (response.isSuccessful) {
+                        sv.visibility = View.INVISIBLE
+                        var cl = findViewById<ConstraintLayout>(R.id.cl)
+                        var l1 = findViewById<LinearLayout>(R.id.l1)
+                        cl.setBackgroundColor(R.color.tb)
+                        l1.visibility = View.VISIBLE
 
-                        mutableListOf<User_List>()
-                        userdata.addAll(listOf(response.body()!!.get(i)))
+                        for (i in 0 until response.body()!!.size) {
+
+                            setdata("id", response.body()!!.get(i).id)
+                            setdata("studentImage", response.body()!!.get(i).studentImage)
+                            setdata("student", response.body()!!.get(i).student)
+
+                            mutableListOf<User_List>()
+                            userdata.addAll(listOf(response.body()!!.get(i)))
+                        }
+                        setdata(Data.number, e1.text.toString())
+                        var adapter = UserAdapter(
+                            this@MainActivity,
+                            userdata
+                        )
+                        rv.layoutManager = LinearLayoutManager(this@MainActivity)
+                        rv.adapter = adapter
+                    } else {
+                        Toast.makeText(this@MainActivity, errorMsg, Toast.LENGTH_SHORT).show()
                     }
-                    setdata(Data.number,e1.text.toString())
-                    var adapter = UserAdapter(
-                        this@MainActivity,
-                        userdata
-                    )
-                    rv.layoutManager = LinearLayoutManager(this@MainActivity)
-                    rv.adapter = adapter
-                }
-                else
-                {
-                    Toast.makeText(this@MainActivity,"not get valid data",Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@MainActivity, errorMsg, Toast.LENGTH_SHORT).show()
                 }
             }
         })
     }
 
-    fun setdata()
-    {
+    fun setdata() {
 
         val sharedPreferences: SharedPreferences = getSharedPreferences("v1", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-        editor.putString("id","id")
-        editor.putString("Userid"," ....")
-        editor.putString("classid"," ....")
-        editor.putString("classe"," ....")
-        editor.putString("Student"," ....")
-        editor.putString("student_image"," ....")
-        editor.putString("school_id"," ....")
-        editor.putString("school_name"," ....")
-        editor.putString("staffid"," ....")
-        editor.putString("staffuserid"," ....")
-        editor.putString("Classteacher"," ....")
-        editor.putString("FacultyPhone"," ....")
-        editor.putString(Data.student_image," ....")
+        editor.putString("id", "id")
+        editor.putString("Userid", " ....")
+        editor.putString("classid", " ....")
+        editor.putString("classe", " ....")
+        editor.putString("Student", " ....")
+        editor.putString("student_image", " ....")
+        editor.putString("school_id", " ....")
+        editor.putString("school_name", " ....")
+        editor.putString("staffid", " ....")
+        editor.putString("staffuserid", " ....")
+        editor.putString("Classteacher", " ....")
+        editor.putString("FacultyPhone", " ....")
+        editor.putString(Data.student_image, " ....")
         editor.apply()
         editor.commit()
     }
 
     @SuppressLint("ResourceAsColor")
-    fun load_user(number:String, section:String)
-    {
+    fun load_user(number: String, section: String) {
         var cl = findViewById<ConstraintLayout>(R.id.cl)
         var l1 = findViewById<LinearLayout>(R.id.l1)
         cl.setBackgroundColor(R.color.tb)
@@ -243,15 +250,14 @@ class MainActivity : AppCompatActivity()
         userdata.clear()
         Toast.makeText(this@MainActivity, "Wait", Toast.LENGTH_LONG).show()
 
-        var preferences= Services()
+        var preferences = Services()
         val loginResponseCall: Call<List<User_List>> =
-            preferences.getUserliost()!!.getUserlist(number.trim(),section.trim())
-        loginResponseCall.enqueue(object : Callback<List<User_List>>
-        {
+            preferences.getUserliost()!!.getUserlist(number.trim(), section.trim())
+        loginResponseCall.enqueue(object : Callback<List<User_List>> {
 
             override fun onFailure(call: Call<List<User_List>>, t: Throwable) {
                 pb.dismiss()
-                Toast.makeText(this@MainActivity,"Try Again",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Try Again", Toast.LENGTH_SHORT).show()
                 sv.visibility = View.VISIBLE
                 l1.visibility = View.INVISIBLE
             }
@@ -261,7 +267,7 @@ class MainActivity : AppCompatActivity()
                 response: Response<List<User_List>>
             ) {
                 pb.dismiss()
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     sv.visibility = View.INVISIBLE
                     l1.visibility = View.VISIBLE
                     setdata(Data.schoolSession, section)
@@ -278,17 +284,15 @@ class MainActivity : AppCompatActivity()
                     )
                     rv.layoutManager = LinearLayoutManager(this@MainActivity)
                     rv.adapter = adapter
-                }
-                else
-                {
-                    Toast.makeText(this@MainActivity,"not get valid data",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@MainActivity, "not get valid data", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         })
     }
 
-    fun alertdilog()
-    {
+    fun alertdilog() {
         val builder: AlertDialog.Builder? = this.let {
             AlertDialog.Builder(it)
         }
@@ -317,25 +321,28 @@ class MainActivity : AppCompatActivity()
     }
 
 
-    fun setdata(key:String,value:String)
-    {
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences("v1", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor =  sharedPreferences.edit()
-        editor.putString(key,value)
+    fun setdata(key: String, value: String) {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences("v1", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString(key, value)
         editor.apply()
         editor.commit()
     }
+
     fun getdata(key: String): String {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences("v1", Context.MODE_PRIVATE)
         val data: SharedPreferences = sharedPreferences
         var value = data.getString(key, "d_null")
         return value!!
-    }override fun onDestroy() {
-    if (pb != null && pb.isShowing()) {
-        pb.dismiss()
     }
-    this!!.onVisibleBehindCanceled()
-    super.onDestroy()
-}
+
+    override fun onDestroy() {
+        if (pb != null && pb.isShowing) {
+            pb.dismiss()
+        }
+        this.onVisibleBehindCanceled()
+        super.onDestroy()
+    }
 }

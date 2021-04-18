@@ -32,6 +32,7 @@ class Data: Application()
         var login="login"
         var stdid="stdid"
         var password="password"
+        var sectionname="sectionname"
     }
 
 
