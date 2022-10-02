@@ -1,112 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center|top"
-    android:layout_margin="2dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="16dp"
     android:elevation="9dp"
-    card_view:cardCornerRadius="9dp"
-    android:id="@+id/cv"
     android:minHeight="270dp"
-    card_view:cardBackgroundColor="@android:color/white">
+    card_view:cardBackgroundColor="@android:color/white"
+    card_view:cardCornerRadius="9dp">
 
 
-        <Button
-            android:id="@+id/btn_download"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/ic_file_download_black_24dp"
-            android:backgroundTint="@color/app"
-            android:padding="9dp"/>
+    <ImageView
+        android:id="@+id/btn_download"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/round_shape"
+        android:elevation="4dp"
+        android:padding="9dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_file_download_black_24dp" />
 
-        <ozaydin.serkan.com.image_zoom_view.ImageViewZoom
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:src="@drawable/no_image"/>
+    <ozaydin.serkan.com.image_zoom_view.ImageViewZoom
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:maxHeight="500dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/no_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/c1"
+        android:foregroundGravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/c1"
-            android:foregroundGravity="bottom"
-            android:gravity="bottom"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txt_sub"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="9dp"
-                android:paddingBottom="9dp">
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/intel"
+                android:foregroundGravity="left"
+                android:gravity="left"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txt_sub"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="4dp"
-                    android:foregroundGravity="left"
-                    android:gravity="left"
-                    android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/intel"
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txt_faculte"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/intel"
+                android:foregroundGravity="left"
+                android:gravity="left"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txt_faculte"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="4dp"
-                    android:foregroundGravity="left"
-                    android:gravity="left"
-                    android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/intel"/>
+            <TextView
+                android:id="@+id/txt_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/intel"
+                android:foregroundGravity="left"
+                android:gravity="left"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txt_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="4dp"
-                    android:foregroundGravity="left"
-                    android:gravity="left"
-                    android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/intel"/>
+            <TextView
+                android:id="@+id/txt_remark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/intel"
+                android:foregroundGravity="left"
+                android:gravity="left|bottom"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txt_remark"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="4dp"
-                    android:foregroundGravity="left"
-                    android:gravity="left|bottom"
-                    android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/intel"/>
-
-            </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

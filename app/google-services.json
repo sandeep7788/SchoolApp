@@ -41,6 +41,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848143780705:android:1f6bc10c0cb90cb741d320",
+        "android_client_info": {
+          "package_name": "com.education.vidhyalayaaa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848143780705-st3rfau6qubfovgkuvlhrrur8fbhrpgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7q9KCnynRbI_df-xxfHeYhl1WZu-VypE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848143780705-st3rfau6qubfovgkuvlhrrur8fbhrpgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
