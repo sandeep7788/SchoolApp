@@ -64,9 +64,9 @@ class MarkSheetActivity : AppCompatActivity() {
         val loginResponseCall: Call<List<MarkSheetModel>> = preferences.getMarkSheet()!!
             .getMarkSheet(
                 getdata(Data.school_id),
-                "43972",//getdata(Data.id),
-                "2021-2022"//getdata(Data.schoolSession),
-                , examId
+                getdata(Data.id),
+                getdata(Data.schoolSession),
+                examId
             )
 
         loginResponseCall.enqueue(object : Callback<List<MarkSheetModel>> {
